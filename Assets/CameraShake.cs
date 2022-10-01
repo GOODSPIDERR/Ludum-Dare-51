@@ -25,7 +25,7 @@ public class CameraShake : MonoBehaviour
         //Duration is not exactly clear. It subtracts the duration value from the magnitude every second. I cbf to figure out the math for that atm
         _perlin.m_AmplitudeGain = _currentAmplitude;
         
-        if (_currentAmplitude >= 0f)
+        if (_currentAmplitude > 0f)
         {
             _currentAmplitude -= _actualTimer * Time.deltaTime;
         }
