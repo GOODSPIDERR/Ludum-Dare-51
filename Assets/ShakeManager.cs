@@ -16,6 +16,7 @@ public class ShakeManager : MonoBehaviour
     public CameraShake cameraShake;
     public GameObject[] platforms;
     public AudioSource[] obstacleAudios;
+    public Animator[] animators;
     void Start()
     {
         volumeProfile.TryGet<Vignette>(out vignette);
@@ -33,6 +34,11 @@ public class ShakeManager : MonoBehaviour
         Debug.Log("Something happened...");
         cameraShake.Shake(8f, 4f, 3f);
         heartbeat1.Play();
+
+        foreach (var animator in animators)
+        {
+            animator.SetTrigger("Play");
+        }
 
         foreach (var platform in platforms)
         {

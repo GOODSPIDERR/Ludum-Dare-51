@@ -67,8 +67,11 @@ public class PlayerMovementScript : MonoBehaviour
         currentState.UpdateState(this);
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        
-        
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
     
 

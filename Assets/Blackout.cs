@@ -7,15 +7,24 @@ using UnityEngine.SceneManagement;
 public class Blackout : MonoBehaviour
 {
     public bool restart;
+    public bool endGame;
     void Awake()
     {
-        if (restart) StartCoroutine(RestartScene());
-        else StartCoroutine(NextScene());
+        if (!endGame)
+        {
+            if (restart) StartCoroutine(RestartScene());
+            else StartCoroutine(NextScene());
+        }
+        else
+        {
+            StartCoroutine(EndGame());
+        }
+        
     }
     
     private IEnumerator NextScene()
     {
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     
@@ -23,5 +32,11 @@ public class Blackout : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(3);
+        Application.Quit();
     }
 }

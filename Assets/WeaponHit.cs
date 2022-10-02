@@ -7,24 +7,42 @@ public class WeaponHit : MonoBehaviour
 {
     private Animator weaponAnim;
     public bool canAttack = true;
-    public GameObject featherVFX;
-    public Transform featherSpawn;
-    public AudioSource swipeSound, hitSound;
+    private AudioSource audioSource;
+    private Transform playerCamera;
+    public LayerMask targetLayer;
+    public VoiceManager voiceManager;
+    
     bool hasHit;
     private float attackTimer = 0f;
     void Start()
     {
         weaponAnim = gameObject.GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+        playerCamera = GameObject.FindGameObjectWithTag("PlayerView").transform;
     }
 
     void Update()
     {
         if (Input.GetMouseButton(0) && canAttack) //If you click LMB and can attack, swings the pillow
         {
+            RaycastHit hit;
+            if (Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, 5f, targetLayer))
+            {
+                if (hit.transform.CompareTag("Target"))
+                {
+                    var theScript = hit.transform.GetComponent<DisaperTest>();
+                    theScript.Disappear();
+                    voiceManager.lossCounter++;
+                    voiceManager.PlayVoice();
+                }
+            }
+            
+            audioSource.Play();
+            
             hasHit = false;
             weaponAnim.SetTrigger("Attack");
             canAttack = false;
-            attackTimer = 0.5f;
+            attackTimer = 1f;
 
             //swipeSound.pitch = Random.Range(0.95f, 1.05f);
             //swipeSound.Play();
@@ -36,23 +54,9 @@ public class WeaponHit : MonoBehaviour
         {
             canAttack = true;
         }
+
+        
     }
 
-    private void OnTriggerEnter(Collider other) //Screenshake whenever you hit anything
-    {
-        if (other.CompareTag("Wall"))
-        {
-            
-        }
 
-
-        if (other.GetComponent<Rigidbody>() != null) //If the thing you hit happens to have a rigidbody, applies a force in the direction you're facing
-        {
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-            Vector3 direction = (transform.position - other.transform.position).normalized;
-            rb.AddForce(-direction, ForceMode.Impulse);
-        }
-
-
-    }
 }

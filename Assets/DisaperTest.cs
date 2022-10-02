@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class DisaperTest : MonoBehaviour
 {
+    public bool lastOne;
+
+    public GameObject winBlackOut;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +20,12 @@ public class DisaperTest : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Disappear()
     {
-        if (other.CompareTag("Weapon"))
+        if (lastOne)
         {
-            Destroy(gameObject);
+            winBlackOut.SetActive(true);
         }
+        else Destroy(gameObject);
     }
 }
