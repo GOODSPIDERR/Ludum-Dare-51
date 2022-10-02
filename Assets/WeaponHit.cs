@@ -7,7 +7,6 @@ public class WeaponHit : MonoBehaviour
 {
     private Animator weaponAnim;
     public bool canAttack = true;
-    Transform mainCamera;
     public GameObject featherVFX;
     public Transform featherSpawn;
     public AudioSource swipeSound, hitSound;
@@ -15,7 +14,6 @@ public class WeaponHit : MonoBehaviour
     private float attackTimer = 0f;
     void Start()
     {
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
         weaponAnim = gameObject.GetComponent<Animator>();
     }
 
@@ -42,24 +40,9 @@ public class WeaponHit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) //Screenshake whenever you hit anything
     {
-        if (!hasHit)
+        if (other.CompareTag("Wall"))
         {
-            //Makes sure that this only triggers once per swing
-            hasHit = true;
-
-            //Spawns the feather VFX
-            //Instantiate(featherVFX, featherSpawn.position, transform.rotation);
-
-            //Camera shake
-            mainCamera.localPosition = new Vector3(0, 0, 0);
-            Sequence shakeSequence = DOTween.Sequence();
-            shakeSequence.Append(mainCamera.DOShakePosition(0.6f, new Vector3(0.4f, 0.4f, 0f), 30, 10, false, true));
-            shakeSequence.Append(mainCamera.DOLocalMove(new Vector3(0, 0, 0), 0.4f));
-            shakeSequence.Play();
-
-            //Sound stuff is handled by the Feather VFX prefab now
-            //hitSound.pitch = Random.Range(0.95f, 1.05f);
-            //hitSound.Play();
+            
         }
 
 

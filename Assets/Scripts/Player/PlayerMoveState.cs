@@ -46,37 +46,7 @@ public class PlayerMoveState : PlayerBaseState
     
     public override void UpdateState(PlayerMovementScript player)
     {
-        if (player.grappled)
-        {
-            var difference = player.transform.position - player.oRb.position;
-            var mag = difference.magnitude;
-
-            Debug.Log(Vector3.Distance(player.transform.position, player.oRb.position));
-            
-            
-            if (velocity.y <= -4f)
-            {
-                collider.enabled = true;
-                controller.enabled = false;
-                rb.velocity = new Vector3(move.x, velocityY, move.z);
-            }
-
-            if (!player.isGrounded && Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.isKinematic = false;
-                controller.enabled = false;
-                collider.enabled = true;
-                
-                rb.AddForce(Vector3.up * 12f + playerTransform.forward * 6f, ForceMode.VelocityChange);
-
-                player.SwitchState(player.FlyState);
-                
-            }
-            
-            
-
-        }
-
+        
         isGrounded = player.isGrounded;
 
         if (isGrounded && velocity.y < 0)

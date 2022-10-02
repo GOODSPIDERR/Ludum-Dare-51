@@ -15,6 +15,7 @@ public class ShakeManager : MonoBehaviour
     private AudioSource heartbeat1, heartbeat2, heartbeat3;
     public CameraShake cameraShake;
     public GameObject[] platforms;
+    public AudioSource[] obstacleAudios;
     void Start()
     {
         volumeProfile.TryGet<Vignette>(out vignette);
@@ -30,7 +31,7 @@ public class ShakeManager : MonoBehaviour
     private IEnumerator Every10()
     {
         Debug.Log("Something happened...");
-        cameraShake.Shake(8f, 4f, 1f);
+        cameraShake.Shake(8f, 4f, 3f);
         heartbeat1.Play();
 
         foreach (var platform in platforms)
@@ -50,6 +51,12 @@ public class ShakeManager : MonoBehaviour
         chromaticAberration.intensity.value = 1f;
         DOTween.To(() => chromaticAberration.intensity.value, x => chromaticAberration.intensity.value = x, 0f, 2f);
 
+        foreach (var audioSource in obstacleAudios)
+        {
+            audioSource.Play();
+        }
+        
+        //Always end with this
         yield return new WaitForSeconds(10);
         StartCoroutine(Every10());
     }

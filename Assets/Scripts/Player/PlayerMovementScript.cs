@@ -15,9 +15,6 @@ public class PlayerMovementScript : MonoBehaviour
 
     [HideInInspector] public CapsuleCollider capsuleCollider;
 
-    //[HideInInspector] 
-    public bool grappled = false;
-    
     [Header("Movement Stuff")]
     public float moveSpeed = 8f;
     public float acceleration = 8f;
@@ -69,18 +66,11 @@ public class PlayerMovementScript : MonoBehaviour
     {
         currentState.UpdateState(this);
 
-        //Debug.Log(move);
-        
-        //Ground check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         
         
     }
-
-    private void LateUpdate()
-    {
-        var points = new Vector3[2];
-    }
+    
 
     public void SwitchState(PlayerBaseState state)
     {
